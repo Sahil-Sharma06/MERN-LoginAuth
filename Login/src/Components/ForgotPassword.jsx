@@ -1,0 +1,49 @@
+import React, {useState} from 'react'
+import '../App.css'
+import axios from 'axios'
+import {Link, useNavigate} from "react-router-dom"
+
+const ForgotPassword = () => {
+    
+    const [email, setEmail] = useState(''); // Added email state
+    
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:3000/auth/forgot-password', {
+            
+            email
+        
+        }).then(res => {
+            if(res.data.status){ 
+                alert("Check your email for password reset")
+                navigate('/login');
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    
+  return (
+    <div className='sign-up-container'>
+                <h2>Forgot Password</h2>
+                <form className='sign-up-form' onSubmit={handleSubmit}>
+                    
+
+                    <label htmlFor='email'>Email:</label> 
+                    <input type='text' placeholder='Email'
+                        onChange={(e) => setEmail(e.target.value)} // Updated input field
+                    />
+
+                   
+                    <button type='submit'>Send</button>
+                   
+                </form>
+            </div>
+            
+  )
+}
+
+export default ForgotPassword
